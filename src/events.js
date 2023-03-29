@@ -8,7 +8,7 @@ player.events.on('playerError', (queue, error) => {
     console.log(`Error emitted from the connection ${error.message}`);
 });
 
-player.events.on('playerStart', (queue, track) => {
+player.events.on('trackStart', (queue, track) => {
     if (!client.config.opt.loopMessage && queue.repeatMode !== 0) return;
 
     const embed = new EmbedBuilder()
