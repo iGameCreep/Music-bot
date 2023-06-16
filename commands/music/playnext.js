@@ -15,7 +15,6 @@ module.exports = {
     ],
 
     async execute({ inter }) {
-	await inter.deferReply();
         const queue = player.nodes.get(inter.guildId);
 
         if (!queue || !queue.isPlaying()) return inter.editReply({ content: `No music currently playing ${inter.member}... try again ? ❌`, ephemeral: true });
@@ -37,7 +36,7 @@ module.exports = {
         .setAuthor({name: `Track has been inserted into the queue... it will play next 🎧` })
         .setColor('#2f3136')
         
-        await inter.reply({ embeds: [PlayNextEmbed] });
+        await inter.editReply({ embeds: [PlayNextEmbed] });
 
 
     }

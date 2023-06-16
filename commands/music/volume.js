@@ -19,19 +19,13 @@ module.exports = {
     execute({ inter }) {
         const queue = player.nodes.get(inter.guildId);
 
-        if (!queue) return inter.reply({ content: `No music currently playing ${inter.member}... try again ? ❌`, ephemeral: true });
+        if (!queue) return inter.editReply({ content: `No music currently playing ${inter.member}... try again ? ❌`, ephemeral: true });
         const vol = inter.options.getNumber('volume')
 
-        if (queue.node.volume === vol) return inter.reply({ content: `The volume you want to change is already the current one ${inter.member}... try again ? ❌`, ephemeral: true });
+        if (queue.node.volume === vol) return inter.editReply({ content: `The volume you want to change is already the current one ${inter.member}... try again ? ❌`, ephemeral: true });
 
         const success = queue.node.setVolume(vol);
 
-
-        const VolEmbed = new EmbedBuilder()
-        .setColor('#2f3136')
-        .setAuthor({name: success ? `The volume has been modified to **${vol}**/**${maxVol}**% 🔊` : `Something went wrong ${inter.member}... try again ? ❌` })
-
-
-       return inter.reply({ embeds: [VolEmbed] });
+       return inter.editReply({ content: success ? `The volume has been modified to ${vol}/${maxVol}% 🔊` : `Something went wrong ${inter.member}... try again ? ❌` });
     },
 };

@@ -8,13 +8,13 @@ module.exports = {
     execute({ client, inter }) {
         const queue = player.nodes.get(inter.guildId);
 
-        if (!queue) return inter.reply({ content: `No music currently playing ${inter.member}... try again ? ❌`, ephemeral: true });
+        if (!queue) return inter.editReply({ content: `No music currently playing ${inter.member}... try again ? ❌`, ephemeral: true });
 
-        if (!queue.tracks.toArray()[0]) return  inter.reply({ content: `No music in the queue after the current one ${inter.member}... try again ? ❌`, ephemeral: true });
+        if (!queue.tracks.toArray()[0]) return  inter.editReply({ content: `No music in the queue after the current one ${inter.member}... try again ? ❌`, ephemeral: true });
 
         const methods = ['', '🔁', '🔂'];
 
-        const songs = queue.tracks.length;
+        const songs = queue.tracks.size;
 
         const nextSongs = songs > 5 ? `And **${songs - 5}** other song(s)...` : `In the playlist **${songs}** song(s)...`;
 
@@ -28,6 +28,6 @@ module.exports = {
         .setTimestamp()
         .setFooter({ text: 'Music comes first - Made with heart by Zerio ❤️', iconURL: inter.member.avatarURL({ dynamic: true })})
 
-        inter.reply({ embeds: [embed] });
+        inter.editReply({ embeds: [embed] });
     },
 };

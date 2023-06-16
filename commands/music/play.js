@@ -14,14 +14,14 @@ module.exports = {
     ],
 
     async execute({ inter, client }) {
-	await inter.deferReply();
         const song = inter.options.getString('song');
         const res = await player.search(song, {
             requestedBy: inter.member,
-            searchEngine: QueryType.AUTO
+            searchEngine: QueryType.AUTO,
+            skipOnNoStream: true
         });
         const NoResultsEmbed = new EmbedBuilder()
-            .setAuthor({ name: `No results found ${inter.member}... try again ? ❌`})
+            .setAuthor({ name: `No results found... try again ? ❌`})
             .setColor('#2f3136')
 
         if (!res || !res.tracks.length) return inter.editReply({ embeds: [NoResultsEmbed] });
@@ -29,9 +29,11 @@ module.exports = {
         const queue = await player.nodes.create(inter.guild, {
             metadata: inter.channel,
             spotifyBridge: client.config.opt.spotifyBridge,
-            volume: client.config.opt.defaultvolume,
+            volume: client.config.opt.volume,
+            leaveOnEmpty: client.config.opt.leaveOnEmpty,
+            leaveOnEmptyCooldown: client.config.opt.leaveOnEmptyCooldown,
             leaveOnEnd: client.config.opt.leaveOnEnd,
-            leaveOnEmpty: client.config.opt.leaveOnEmpty
+            leaveOnEndCooldown: client.config.opt.leaveOnEndCooldown,
         });
 
         try {
@@ -40,7 +42,7 @@ module.exports = {
             await player.deleteQueue(inter.guildId);
 
             const NoVoiceEmbed = new EmbedBuilder()
-                .setAuthor({ name: `I can't join the voice channel ${inter.member}... try again ? ❌`})
+                .setAuthor({ name: `I can't join the voice channel... try again ? ❌`})
                 .setColor('#2f3136')
 
             return inter.editReply({ embeds: [NoVoiceEmbed] });

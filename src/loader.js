@@ -4,8 +4,6 @@ const { Collection } = require('discord.js');
 client.commands = new Collection();
 CommandsArray = [];
 
-
-
 const DiscordEvents = readdirSync('./events/Discord/').filter(file => file.endsWith('.js'));
 const PlayerEvents = readdirSync('./events/Player/').filter(file => file.endsWith('.js'));
 
