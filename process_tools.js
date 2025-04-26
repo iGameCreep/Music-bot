@@ -1,5 +1,4 @@
 const config = require("./config");
-const translate = require('translate').default;
 
 module.exports = {
   Translate: async (text = "", lang = "", allLowerCase = false) => {
@@ -63,6 +62,18 @@ module.exports = {
     }
 
     return output;
+  },
+
+  // translate is ESM: We need to import it dynamically
+  GetTranslationModule: async () => {
+    try {
+      const module = await import("translate");
+      translate = module.default || module;
+    } catch (e) {
+      throw new Error(
+        `❌ The translate module could not load properly. Please contact an Developers ❌ \n\n\nError:${e}`
+      );
+    }
   },
 
   throwConfigError: (section = 'app', key = 'token', error = '') => {
